@@ -20,6 +20,7 @@ function compute(items) {
       stack1.push(stack1.pop() / nextItem);
       i++;
     } else {
+      // This is the + or - operator, push it and handle during next pass
       stack1.push(item);
     }
   }
@@ -38,8 +39,6 @@ function compute(items) {
     } else if (item === '-') {
       stack2.push(stack2.pop() - nextItem);
       i++;
-    } else {
-      stack2.push(item);
     }
   }
 
@@ -61,7 +60,10 @@ function tokenize(input) {
   return transformation2;
 }
 
-// Compute the results
-console.log(input1, '=', compute(tokenize(input1)));
-console.log(input2, '=', compute(tokenize(input2)));
-console.log(input3, '=', compute(tokenize(input3)));
+// Compute the results and use eval() to see how we stack up to node
+const res1 = compute(tokenize(input1));
+const res2 = compute(tokenize(input2));
+const res3 = compute(tokenize(input3));
+console.log(input1, '=', res1, 'is', eval(input1) === res1);
+console.log(input2, '=', res2, 'is', eval(input2) === res2);
+console.log(input3, '=', res3, 'is', eval(input3) === res3);
